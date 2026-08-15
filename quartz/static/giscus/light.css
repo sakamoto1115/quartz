@@ -63,10 +63,10 @@ main {
   --color-fg-default: #2b2b2b; /* --dark */
   --color-fg-muted: #4e4e4e; /* --darkgray */
   --color-fg-subtle: #4e4e4e; /* --darkgray */
-  --color-canvas-default: #fff;
-  --color-canvas-overlay: #fff;
-  --color-canvas-inset: #f6f8fa;
-  --color-canvas-subtle: #f6f8fa;
+  --color-canvas-default: #faf8f8; /* --light */
+  --color-canvas-overlay: #faf8f8; /* --light */
+  --color-canvas-inset: #e5e5e5; /* --lightgray */
+  --color-canvas-subtle: #e5e5e5; /* --lightgray */
   --color-border-default: #d0d7de;
   --color-border-muted: hsl(210deg 18% 87% / 100%);
   --color-neutral-muted: rgb(175 184 193 / 20%);

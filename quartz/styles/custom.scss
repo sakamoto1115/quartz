@@ -1,3 +1,135 @@
 @use "./variables.scss" as *;
 
 // put your custom CSS here!
+
+// うっすら寒色系のグラデーション背景
+// oklch空間で混ぜることで、中間色がくすまず色味を保ちやすくしている
+body {
+  background-color: var(--light);
+  background-image: linear-gradient(
+    135deg,
+    color-mix(in oklch, var(--secondary) 15%, var(--light)) 0%,
+    color-mix(in oklch, var(--tertiary) 15%, var(--light)) 100%
+  );
+  background-attachment: fixed;
+}
+
+// ダークモードは地の色に近く彩度が分かりにくいため、混合率を上げてはっきりさせる
+// ただしリンク色(--secondary)と背景の色相が被って見分けにくくなるため、
+// 背景はやや控えめにしつつ、本文・リンクの文字色を明るくしてコントラストを確保する
+html[saved-theme="dark"] {
+  body {
+    background-image: linear-gradient(
+      135deg,
+      color-mix(in oklch, var(--secondary) 30%, var(--light)) 0%,
+      color-mix(in oklch, var(--tertiary) 30%, var(--light)) 100%
+    );
+    color: color-mix(in oklch, var(--darkgray) 85%, white);
+  }
+
+  // 青紫系・くっきりめの彩度で固定(テーマの--secondaryは彩度が低いため直接指定)
+  a {
+    color: oklch(72% 0.19 280);
+
+    &:hover {
+      color: oklch(80% 0.19 280);
+    }
+  }
+
+  --nav-accent: oklch(72% 0.11 85);
+  --nav-accent-active: oklch(80% 0.13 85);
+}
+
+// 一覧・目次のリンクは、本文の青紫系リンクとは別の、くすんだ金色系アクセントにする
+:root {
+  --nav-accent: oklch(52% 0.1 85);
+  --nav-accent-active: oklch(61% 0.12 85);
+}
+
+#quartz-body .explorer-content ul li > a,
+#quartz-body .toc-content.overflow > li > a,
+#quartz-body .folder-container div > a,
+#quartz-body .folder-container div > button span,
+#quartz-body .folder-icon {
+  color: var(--nav-accent);
+}
+
+#quartz-body .explorer-content ul li > a.active,
+#quartz-body .toc-content.overflow > li > a.in-view,
+#quartz-body .folder-container div > a:hover,
+#quartz-body .folder-icon:hover {
+  color: var(--nav-accent-active);
+}
+
+// サイトタイトルをヘッダーに集約: 中央揃え・下線・小さな立方体アイコンだけのシンプルな見た目
+// 罫線は常にコントラストの強い色(ライトモード=黒寄り、ダークモード=白寄り)にする
+.page-header {
+  margin-top: 2rem;
+}
+
+header {
+  justify-content: center;
+  margin: 0 2rem 2rem 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--dark);
+}
+
+.page-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 14px;
+    height: 14px;
+    background-color: var(--gray);
+    $cube-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z'/%3E%3Cpath d='M3.27 6.96 12 12.01l8.73-5.05'/%3E%3Cpath d='M12 22.08V12'/%3E%3C/svg%3E");
+    mask-image: $cube-icon;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: $cube-icon;
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+  }
+}
+
+// グラフビューを右下に固定表示するフローティングウィジェットにする(デスクトップのみ)
+@media all and ($desktop) {
+  #quartz-body .sidebar.right > .graph {
+    position: fixed;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: 260px;
+    z-index: 20;
+  }
+}
+
+// 一覧・目次・グラフビューに、ほんの少し角丸の枠線をつける
+#quartz-body .explorer.nav-files-container,
+#quartz-body .toc,
+#quartz-body .sidebar.right > .graph {
+  box-sizing: border-box;
+  border: 1px solid var(--dark);
+  border-radius: 6px;
+  padding: 0.75rem;
+}
+
+// グラフ内側の枠(プラグイン標準)は二重になるので消す
+#quartz-body .sidebar.right > .graph > .graph-outer {
+  border: none;
+}
+
+// 折りたたみ時、プラグイン側は高さを1.2rem/1.4rem程度まで縮める作りだが、
+// 見出しフォント(Shippori Mincho)の行の高さがそれよりわずかに大きく、文字が欠けてしまう。
+// 枠は残したまま、折りたたみ時の高さ自体を広げて収まるようにする
+#quartz-body .explorer.nav-files-container.collapsed,
+#quartz-body .toc:has(button.toc-header.collapsed) {
+  flex-basis: 1.9rem;
+  min-height: 1.9rem;
+  padding: 0.15rem 0.75rem;
+}
