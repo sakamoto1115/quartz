@@ -98,14 +98,12 @@ header {
   }
 }
 
-// グラフビューを右下に固定表示するフローティングウィジェットにする(デスクトップのみ)
+// グラフビューを右サイドバーの最下部に押し下げる(デスクトップのみ)。
+// サイドバー自体がsticky(高さ100vh)なので、画面右下に固定されたまま
+// 目次と同じ列に収まり、左右の位置が揃う
 @media all and ($desktop) {
   #quartz-body .sidebar.right > .graph {
-    position: fixed;
-    right: 1.5rem;
-    bottom: 1.5rem;
-    width: 260px;
-    z-index: 20;
+    margin-top: auto;
   }
 }
 

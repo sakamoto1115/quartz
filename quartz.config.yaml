@@ -90,7 +90,7 @@ plugins:
     enabled: false
     order: 85
   - source: "@quartz-community/hard-line-breaks"
-    enabled: false
+    enabled: true
     order: 90
   - source: "@quartz-community/ox-hugo"
     enabled: false
@@ -248,7 +248,7 @@ plugins:
         - tags
         - aliases
       excludedProperties: []
-      hidePropertiesView: false
+      hidePropertiesView: true
       delimiters: ---
       language: yaml
     order: 5
