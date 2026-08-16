@@ -34,46 +34,47 @@ main {
   --color-prettylights-syntax-brackethighlighter-angle: #57606a;
   --color-prettylights-syntax-sublimelinter-gutter-mark: #8c959f;
   --color-prettylights-syntax-constant-other-reference-link: #0a3069;
+  /* 背景は透明にして、テキストと線だけでサイトに馴染ませるデザイン */
   --color-btn-text: #4e4e4e; /* --darkgray */
-  --color-btn-bg: #faf8f8; /* --light */
-  --color-btn-border: rgb(43, 43, 43 / 15%); /* --dark */
-  --color-btn-shadow: 0 1px 0 rgb(31 35 40 / 4%);
-  --color-btn-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 25%);
-  --color-btn-hover-bg: #f3f4f6;
-  --color-btn-hover-border: rgb(43, 43, 43 / 15%); /* --dark */
-  --color-btn-active-bg: hsl(220deg 14% 93% / 100%);
-  --color-btn-active-border: rgb(31 35 40 / 15%);
-  --color-btn-selected-bg: hsl(220deg 14% 94% / 100%);
-  --color-btn-primary-text: #fff;
-  --color-btn-primary-bg: #84a59d; /* --tertiary */
-  --color-btn-primary-border: rgb(43, 43, 43 / 15%); /* --dark */
-  --color-btn-primary-shadow: 0 1px 0 rgb(31 35 40 / 10%);
-  --color-btn-primary-inset-shadow: inset 0 1px 0 rgb(255 255 255 / 3%);
-  --color-btn-primary-hover-bg: #284b63; /* --secondary */
-  --color-btn-primary-hover-border: rgb(43, 43, 43 / 15%); /* --dark */
-  --color-btn-primary-selected-bg: #284b63; /* --secondary */
-  --color-btn-primary-selected-shadow: inset 0 1px 0 rgb(0 45 17 / 20%);
-  --color-btn-primary-disabled-text: rgb(255 255 255 / 80%);
-  --color-btn-primary-disabled-bg: #94d3a2;
-  --color-btn-primary-disabled-border: rgb(31 35 40 / 15%);
-  --color-action-list-item-default-hover-bg: rgb(208 215 222 / 32%);
-  --color-segmented-control-bg: #eaeef2;
-  --color-segmented-control-button-bg: #fff;
-  --color-segmented-control-button-selected-border: #8c959f;
+  --color-btn-bg: transparent;
+  --color-btn-border: #b8b8b8; /* --gray */
+  --color-btn-shadow: none;
+  --color-btn-inset-shadow: none;
+  --color-btn-hover-bg: rgb(43 43 43 / 5%);
+  --color-btn-hover-border: #2b2b2b; /* --dark */
+  --color-btn-active-bg: rgb(43 43 43 / 8%);
+  --color-btn-active-border: #2b2b2b; /* --dark */
+  --color-btn-selected-bg: rgb(43 43 43 / 8%);
+  --color-btn-primary-text: #2b2b2b; /* --dark */
+  --color-btn-primary-bg: transparent;
+  --color-btn-primary-border: #2b2b2b; /* --dark */
+  --color-btn-primary-shadow: none;
+  --color-btn-primary-inset-shadow: none;
+  --color-btn-primary-hover-bg: rgb(43 43 43 / 6%);
+  --color-btn-primary-hover-border: #2b2b2b; /* --dark */
+  --color-btn-primary-selected-bg: rgb(43 43 43 / 8%);
+  --color-btn-primary-selected-shadow: none;
+  --color-btn-primary-disabled-text: #b8b8b8; /* --gray */
+  --color-btn-primary-disabled-bg: transparent;
+  --color-btn-primary-disabled-border: #e5e5e5; /* --lightgray */
+  --color-action-list-item-default-hover-bg: rgb(43 43 43 / 5%);
+  --color-segmented-control-bg: transparent;
+  --color-segmented-control-button-bg: transparent;
+  --color-segmented-control-button-selected-border: #2b2b2b; /* --dark */
   --color-fg-default: #2b2b2b; /* --dark */
   --color-fg-muted: #4e4e4e; /* --darkgray */
   --color-fg-subtle: #4e4e4e; /* --darkgray */
-  --color-canvas-default: #faf8f8; /* --light */
-  --color-canvas-overlay: #faf8f8; /* --light */
-  --color-canvas-inset: #e5e5e5; /* --lightgray */
-  --color-canvas-subtle: #e5e5e5; /* --lightgray */
-  --color-border-default: #d0d7de;
-  --color-border-muted: hsl(210deg 18% 87% / 100%);
-  --color-neutral-muted: rgb(175 184 193 / 20%);
-  --color-accent-fg: #0969da;
-  --color-accent-emphasis: #0969da;
-  --color-accent-muted: rgb(84 174 255 / 40%);
-  --color-accent-subtle: #ddf4ff;
+  --color-canvas-default: transparent;
+  --color-canvas-overlay: #faf8f8; /* --light: ポップアップだけは透けると読めないので不透明 */
+  --color-canvas-inset: transparent;
+  --color-canvas-subtle: transparent;
+  --color-border-default: #2b2b2b; /* --dark: サイトの罫線と同じ色 */
+  --color-border-muted: #e5e5e5; /* --lightgray */
+  --color-neutral-muted: rgb(184 184 184 / 15%);
+  --color-accent-fg: #284b63; /* --secondary: 本文リンクと同じ色 */
+  --color-accent-emphasis: #284b63; /* --secondary */
+  --color-accent-muted: rgb(40 75 99 / 40%);
+  --color-accent-subtle: rgb(40 75 99 / 10%);
   --color-success-fg: #1a7f37;
   --color-attention-fg: #9a6700;
   --color-attention-muted: rgb(212 167 44 / 40%);

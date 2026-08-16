@@ -110,6 +110,7 @@ header {
 }
 
 // 一覧・目次・グラフビューに、ほんの少し角丸の枠線をつける
+// (コメント欄は囲わず、giscusテーマCSS側で背景透明の馴染むデザインにしている)
 #quartz-body .explorer.nav-files-container,
 #quartz-body .toc,
 #quartz-body .sidebar.right > .graph {
@@ -117,6 +118,10 @@ header {
   border: 1px solid var(--dark);
   border-radius: 6px;
   padding: 0.75rem;
+}
+
+#quartz-body .giscus {
+  margin-top: 1rem;
 }
 
 // グラフ内側の枠(プラグイン標準)は二重になるので消す
