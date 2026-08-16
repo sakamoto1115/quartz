@@ -87,7 +87,10 @@ plugins:
       renderEngine: katex
     order: 80
   - source: "@quartz-community/citations"
-    enabled: false
+    enabled: true
+    options:
+      bibliographyFile: ./bibliography.bib
+      linkCitations: true
     order: 85
   - source: "@quartz-community/hard-line-breaks"
     enabled: true

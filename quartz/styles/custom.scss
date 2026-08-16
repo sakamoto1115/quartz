@@ -127,6 +127,24 @@ header {
   border: none;
 }
 
+// 参考文献リストは本文からもう少し離し、見出しを付ける
+// (プラグイン側に見出しを出す機能が無いため擬似要素で補っている)
+// 区切り線はライトモード=黒寄り、ダークモード=白寄りにする
+#quartz-body #refs {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--dark);
+
+  &::before {
+    content: "参考文献";
+    display: block;
+    margin-bottom: 0.75rem;
+    font-family: var(--headerFont);
+    font-size: 1.2rem;
+    color: var(--dark);
+  }
+}
+
 // 折りたたみ時、プラグイン側は高さを1.2rem/1.4rem程度まで縮める作りだが、
 // 見出しフォント(Shippori Mincho)の行の高さがそれよりわずかに大きく、文字が欠けてしまう。
 // 枠は残したまま、折りたたみ時の高さ自体を広げて収まるようにする
