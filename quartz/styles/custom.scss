@@ -4,26 +4,39 @@
 
 // うっすら寒色系のグラデーション背景
 // oklch空間で混ぜることで、中間色がくすまず色味を保ちやすくしている
-body {
+//
+// background-attachment: fixed でビューポート基準に固定しているので、
+// 別の要素に同じ指定をすれば地と継ぎ目なく繋がる。
+// モバイルのツールバー/ドロワーにも使い回すため mixin にしてある
+// (混合率はライト/ダークで変わるので --page-bg-mix で切り替える)
+@mixin page-background {
   background-color: var(--light);
   background-image: linear-gradient(
     135deg,
-    color-mix(in oklch, var(--secondary) 15%, var(--light)) 0%,
-    color-mix(in oklch, var(--tertiary) 15%, var(--light)) 100%
+    color-mix(in oklch, var(--secondary) var(--page-bg-mix), var(--light)) 0%,
+    color-mix(in oklch, var(--tertiary) var(--page-bg-mix), var(--light)) 100%
   );
   background-attachment: fixed;
+}
+
+:root {
+  --page-bg-mix: 15%;
+  // ドロワーなど、地の上に重なる面用。同じ色相のまま少しだけ濃くする
+  --panel-bg-mix: 26%;
+}
+
+body {
+  @include page-background;
 }
 
 // ダークモードは地の色に近く彩度が分かりにくいため、混合率を上げてはっきりさせる
 // ただしリンク色(--secondary)と背景の色相が被って見分けにくくなるため、
 // 背景はやや控えめにしつつ、本文・リンクの文字色を明るくしてコントラストを確保する
 html[saved-theme="dark"] {
+  --page-bg-mix: 30%;
+  --panel-bg-mix: 45%;
+
   body {
-    background-image: linear-gradient(
-      135deg,
-      color-mix(in oklch, var(--secondary) 30%, var(--light)) 0%,
-      color-mix(in oklch, var(--tertiary) 30%, var(--light)) 100%
-    );
     color: color-mix(in oklch, var(--darkgray) 85%, white);
   }
 
@@ -72,6 +85,13 @@ header {
   margin: 0 2rem 2rem 2rem;
   padding-bottom: 1.5rem;
   border-bottom: 1px solid var(--dark);
+
+  // モバイルでは .center 側に既に padding があり、更に左右2remを取ると
+  // タイトルと罫線が内側に寄りすぎるので左右マージンは付けない
+  @media all and ($mobile) {
+    margin-left: 0;
+    margin-right: 0;
+  }
 }
 
 .page-title {
@@ -109,13 +129,23 @@ header {
 
 // 一覧・目次・グラフビューに、ほんの少し角丸の枠線をつける
 // (コメント欄は囲わず、giscusテーマCSS側で背景透明の馴染むデザインにしている)
-#quartz-body .explorer.nav-files-container,
 #quartz-body .toc,
 #quartz-body .sidebar.right > .graph {
   box-sizing: border-box;
   border: 1px solid var(--dark);
   border-radius: 6px;
   padding: 0.75rem;
+}
+
+// 一覧はモバイルだと34px幅のハンバーガーボタン+全画面ドロワーに変わるため、
+// 枠線と内側余白を付けるとボタンが潰れる。縦並びになる幅でだけ適用する
+@media all and ($tablet), all and ($desktop) {
+  #quartz-body .explorer.nav-files-container {
+    box-sizing: border-box;
+    border: 1px solid var(--dark);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
 }
 
 #quartz-body .giscus {
@@ -148,9 +178,196 @@ header {
 // 折りたたみ時、プラグイン側は高さを1.2rem/1.4rem程度まで縮める作りだが、
 // 見出しフォント(Shippori Mincho)の行の高さがそれよりわずかに大きく、文字が欠けてしまう。
 // 枠は残したまま、折りたたみ時の高さ自体を広げて収まるようにする
-#quartz-body .explorer.nav-files-container.collapsed,
-#quartz-body .toc:has(button.toc-header.collapsed) {
-  flex-basis: 1.9rem;
-  min-height: 1.9rem;
-  padding: 0.15rem 0.75rem;
+//
+// なお flex-basis はサイドバーが縦並び(column)のときだけ「高さ」として働く。
+// 横並び(row)になる幅では同じ指定が「幅」を潰してしまうので、
+// 縦並びになる幅に限定する。左サイドバー(一覧)はモバイルのみ横並び、
+// 右サイドバー(目次)はデスクトップ未満で横並びになるため、条件が異なる。
+@media all and ($tablet), all and ($desktop) {
+  #quartz-body .explorer.nav-files-container.collapsed {
+    flex-basis: 1.9rem;
+    min-height: 1.9rem;
+    padding: 0.15rem 0.75rem;
+  }
+}
+
+@media all and ($desktop) {
+  #quartz-body .toc:has(button.toc-header.collapsed) {
+    flex-basis: 1.9rem;
+    min-height: 1.9rem;
+    padding: 0.15rem 0.75rem;
+  }
+}
+
+// callout の青系2色を、地の落ち着いた配色に合わせて振り直す。
+// note は既定の #448aff が浮くのでテーマ色(ライト: #284b63 / ダーク: #7b97aa)に寄せる。
+// --secondary はライト・ダークで別の値が入るので、これを基準にすれば両モードとも自動で馴染む。
+// abstract は既定が明るいシアン(#00b0ff)で地から浮くうえコントラストも足りないため、
+// 色相はそのままに明度を落として、本文背景に対し WCAG AA(4.5:1) を満たす青にする。
+// (quartz本体のcalloutスタイルは @layer quartz-base の中にあり、
+//  このファイルはレイヤー外なので、詳細度に関係なくこちらが優先される)
+.callout[data-callout="note"] {
+  --color: var(--secondary);
+  --border: color-mix(in oklch, var(--secondary) 40%, transparent);
+  --bg: color-mix(in oklch, var(--secondary) 8%, transparent);
+}
+
+.callout[data-callout="abstract"] {
+  --color: #2054c0;
+  --border: #2054c044;
+  --bg: #2054c010;
+}
+
+// ダークモードは地が暗く、ライト用の濃い青のままだと沈んで読めないため、
+// 明度を上げた同系色に差し替える(彩度は上げすぎると本文から浮くので控えめに)
+html[saved-theme="dark"] {
+  .callout[data-callout="note"] {
+    --color: #98c0dc;
+    --border: #98c0dc44;
+    --bg: #98c0dc10;
+  }
+
+  .callout[data-callout="abstract"] {
+    --color: #77a4fd;
+    --border: #77a4fd44;
+    --bg: #77a4fd10;
+  }
+}
+
+// 図を本文の右に横並びで置くためのレイアウト。
+// markdown中で <div class="figure-row"> … </div> で囲い、
+// 本文側を <div> でもう一段包んで1つのflexアイテムにまとめる
+// (包まないと段落ごとに別アイテムになって横に並んでしまう)。
+// 狭い画面では横幅が足りず本文が潰れるので縦積みに戻す。
+.figure-row {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+
+  > div {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    // callout本体は .callout-content > :first-child の余白を消しているが、
+    // ここでは間に <div> が挟まるためその指定が届かず、
+    // 最初/最後の段落の上下マージンがそのまま残ってしまう。改めて消す
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  > svg,
+  > figure {
+    flex: 0 0 auto;
+  }
+
+  @media all and ($mobile) {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+// TikZ(figures/*.tex)から生成した図。
+// 中身は黒の線画で固定されており、<img> で読み込むため
+// ページ側の色(currentColorやCSS変数)が届かない。
+// そのためライト・ダークによらず白地の上に置いて可読性を保つ。
+.tikz-figure {
+  margin: 1.5rem 0;
+  text-align: center;
+
+  > img {
+    // SVGの内在サイズ(pt)のままだと本文幅に対して小さいので、
+    // 本文の幅いっぱいまで引き伸ばす(ベクタなので拡大しても劣化しない)
+    width: 100%;
+    max-width: 640px;
+    height: auto;
+    background: #fff;
+    border-radius: 6px;
+    padding: 0.75rem;
+    box-sizing: border-box;
+  }
+}
+
+// 横並びの右側に置く図。.tikz-figure の縦マージンを打ち消し、幅を抑える
+// (狭い画面では .figure-row が縦積みになり、text-align: center で中央に来る)
+.figure-row-aside {
+  margin: 0;
+
+  > img {
+    width: 132px;
+    padding: 0.5rem;
+  }
+}
+
+// モバイルの上部ツールバーと、一覧の全画面ドロワーは、プラグイン側が
+// background-color: var(--light) を敷いており、地のグラデーションから
+// 白い帯として浮いてしまう。地と同じ背景を敷いて繋げる。
+//
+// これらのCSSは component-*.css として index.css より後に読み込まれるため、
+// 同じ詳細度では後勝ちで負ける。html body を足して詳細度を上げている
+@media all and ($mobile) {
+  html body .page > #quartz-body .sidebar.left:has(.explorer),
+  html body #quartz-body .explorer .explorer-content {
+    @include page-background;
+  }
+
+  // ドロワーは地と完全に同色だと「別の面が開いた」感じが出ないので、
+  // 色相はそのままに混合率だけ上げて、わずかに濃い面にする
+  html body #quartz-body .explorer .explorer-content {
+    --page-bg-mix: var(--panel-bg-mix);
+
+    // プラグイン側は position: absolute + left: 0 + width: 100vw だが、
+    // 基準になる左サイドバーは .page > #quartz-body の padding: 0 1rem のぶん
+    // 内側にあるため、左端に1rem幅の地色が残り、右へ1remはみ出していた。
+    // fixed にしてビューポート基準にすると過不足なく全面を覆える
+    // (祖先に transform/filter が無いことは確認済み)
+    position: fixed;
+
+    // プラグイン側の padding は 4rem 0 2rem で左右が0。
+    // これまでは上記のずれ(1rem)が余白の代わりになっていたので、
+    // 基準を直したぶん明示的に付け直す。本文の左端(#quartz-body の padding)と揃う値
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+// モバイルの一覧ボタンは、開いても3本線のままで開閉が分かりにくい。
+// 開いている間(.explorer から .collapsed が外れている間)は×印に変形させる。
+//
+// SVGは viewBox="0 0 24 24" で、line が上から順に
+//   1本目: y=12(中央) / 2本目: y=6(上) / 3本目: y=18(下)
+// の並び。中央を消し、上下を中央(y=12)へ寄せてから回転させる。
+// transform は右から適用されるので、translate → rotate の順に効く。
+//
+// component-*.css は index.css より後に読み込まれるため html body で詳細度を上げる
+@media all and ($mobile) {
+  html body #quartz-body .explorer .mobile-explorer .lucide-menu {
+    line {
+      transform-box: view-box;
+      transform-origin: 12px 12px;
+      transition:
+        transform 0.2s ease,
+        opacity 0.15s ease;
+    }
+  }
+
+  html body #quartz-body .explorer:not(.collapsed) .mobile-explorer .lucide-menu {
+    stroke: var(--dark);
+
+    line:nth-child(1) {
+      opacity: 0;
+    }
+
+    line:nth-child(2) {
+      transform: rotate(45deg) translateY(6px);
+    }
+
+    line:nth-child(3) {
+      transform: rotate(-45deg) translateY(-6px);
+    }
+  }
 }
