@@ -1,0 +1,5 @@
+{
+  // .latex-activate.tex は記号パネルを有効化するためだけのダミーなので、
+  // 保存時に LaTeX のビルドが走らないようにする。
+  "latex-workshop.latex.autoBuild.run": "never"
+}
