@@ -12,3 +12,6 @@ replit.nix
 .quartz/
 quartz/cli/tui/dist/
 .turbo/
+
+# TikZ図の中間ファイル(.aux/.log/.dvi/.pdf)
+figures/.build/

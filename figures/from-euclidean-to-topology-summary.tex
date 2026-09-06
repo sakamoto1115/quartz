@@ -1,0 +1,50 @@
+% まとめ図：ユークリッド空間から一般の位相へ
+%
+% ビルド: bash figures/build.sh
+% 出力先: content/set-topology/from-euclidean-to-topology-summary.svg
+%
+% 生成されるSVGは黒の線画で固定（ダークモードでも白地の上に表示する）。
+% 詳細は quartz/styles/custom.scss の .tikz-figure を参照。
+
+\documentclass[uplatex,dvipdfmx,border=6pt,varwidth]{standalone}
+\usepackage{plautopatch}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+  box/.style={
+    draw, rounded corners=3pt, align=center,
+    inner sep=7pt, minimum height=13mm, minimum width=38mm
+  },
+  ar/.style={-{Stealth[length=2.4mm]}, thick},
+  lbl/.style={font=\footnotesize, align=center, inner sep=3pt},
+  sub/.style={font=\scriptsize}
+]
+  \node[box] (A) at (0,0)
+    {$\varepsilon$-$\delta$ 論法\\[2pt]
+     {\footnotesize $\forall \varepsilon > 0,\; \exists \delta > 0,$}\\
+     {\footnotesize $|x-a|<\delta \Rightarrow |f(x)-f(a)|<\varepsilon$}};
+
+  \node[box] (B) at (0,-2.9)
+    {ユークリッド空間での\\開集合による連続性\\[2pt] {\footnotesize $O$が開集合 $\Rightarrow f^{-1}(O)$も開集合}};
+
+  \node[box] (D) at (7.2,-2.9)
+    {位相空間での連続性\\[2pt] {\footnotesize $O \in \mathfrak{O}_2 \Rightarrow f^{-1}(O) \in \mathfrak{O}_1$}};
+
+  \node[box] (C) at (3.6,-5.9)
+    {位相の公理\\[2pt] {\footnotesize $(\mathrm{O_i}), (\mathrm{O_{ii}}), (\mathrm{O_{iii}})$}};
+
+  \draw[ar] (A) -- node[lbl, right] {開球体} (B);
+  \draw[ar] (B) -- node[lbl, right] {開集合の性質を抽出} (0,-5.9) -- (C);
+  \draw[ar] (C) -- (7.2,-5.9) -- node[lbl, left] {逆に開集合から\\連続を定義} (D);
+
+  % 左右の区切りと見出し。
+  % 区切りは C（位相の公理）の手前で止める。C は両者を橋渡しする位置づけなので、
+  % どちらの側にも属さないよう線の下に置いている
+  \draw[thick, dotted] (3.6,2.3) -- (3.6,-4.8);
+  \node[font=\bfseries] at (0,1.8) {ユークリッド空間};
+  \node[font=\bfseries] at (7.2,1.8) {一般の位相空間};
+\end{tikzpicture}
+\end{document}
