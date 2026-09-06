@@ -14,4 +14,3 @@ title: Top
 <img src="https://unavatar.io/twitter/sakamoto3141pi" width="20" height="20" style="border-radius:50%;object-fit:cover;" alt="" />
 阪本 (@sakamoto3141pi)
 </a>
-

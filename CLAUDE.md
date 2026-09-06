@@ -26,6 +26,7 @@ npm run docs                   # Quartz自体のドキュメント(docs/)を `-d
 単一のテストファイルを実行するには `tsx --test path/to/file.test.ts` を直接使う(テストはすべてNode標準の `node:test` を使用し、`quartz/plugins/loader/config-loader.test.ts` のようにソースと同じ場所に `*.test.ts` として配置されている)。
 
 その他のCLIエントリーポイント(`npx quartz <cmd>`、`quartz/bootstrap-cli.mjs` で定義):
+
 - `create` — 新しいQuartzコンテンツフォルダをスキャフォールド(コンテンツが既に存在するここでは不要)
 - `sync` — ローカルのコンテンツ変更を設定済みのQuartzフォークへcommit/pull/push
 - `upgrade` — Quartzコア本体を最新版へアップグレード
@@ -38,6 +39,7 @@ Node >=22 が必須(CLI起動時にチェックされる)。`.node-version` は 
 ### 設定の読み込み
 
 `quartz.ts` がQuartzコードが実際にimportする設定エントリーポイントであり、`quartz/plugins/loader/config-loader.ts` の `loadQuartzConfig()` / `loadQuartzLayout()` を呼び出す。これらは `quartz.config.yaml` を読み込む(存在しない場合は `quartz.config.default.yaml` にフォールバック — このリポジトリは現状デフォルトファイルのみでオーバーライドは無い)。YAMLには2つのトップレベルセクションがある:
+
 - `configuration` — サイト全体の設定(タイトル、テーマの色/フォント、analytics、`baseUrl`、`ignorePatterns`、locale)。
 - `plugins` — `{ source, enabled, order, options, layout }` のエントリーの順序付きリスト。
 
@@ -46,10 +48,12 @@ Node >=22 が必須(CLI起動時にチェックされる)。`.node-version` は 
 ### プラグインシステム
 
 プラグインは2種類に分かれる:
+
 - **内部プラグイン** — `quartz/plugins/{transformers,filters,emitters,pageTypes}` 以下に直接バンドルされている。
 - **コミュニティプラグイン** — `quartz.config.yaml` の `source` で参照される独立したパッケージ。npmパッケージ名(例: `@quartz-community/search`、既に `package.json` の依存関係に記載済み)か、`github:org/repo` 形式のソースで `npx quartz plugin install` により `.quartz/plugins/` にインストールされるかのいずれか。このリポジトリのデフォルト設定は `@quartz-community/*` のnpmパッケージのみを使用しているため、`quartz.config.yaml` をgitソースのプラグインでカスタマイズしない限り `plugin install` はほぼ何もしない。
 
 各プラグインは以下の4種類のいずれかとして自身を宣言する(`quartz/plugins/types.ts`):
+
 - **Transformers(変換)** — パース済みコンテンツをmapする(例: frontmatterのパース、説明文の生成)。
 - **Filters(フィルタ)** — コンテンツを除外する(例: draft記事)。
 - **Emitters(出力)** — コンテンツを出力ファイルへreduceする(例: RSS、タグページ)。
