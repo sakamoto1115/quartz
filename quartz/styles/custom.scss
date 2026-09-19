@@ -283,7 +283,7 @@ html[saved-theme="dark"] {
     // SVGの内在サイズ(pt)のままだと本文幅に対して小さいので、
     // 本文の幅いっぱいまで引き伸ばす(ベクタなので拡大しても劣化しない)
     width: 100%;
-    max-width: 640px;
+    max-width: 560px;
     height: auto;
     background: #fff;
     border-radius: 6px;
