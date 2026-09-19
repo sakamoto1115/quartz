@@ -17,6 +17,12 @@ cd "$(dirname "$0")"
 BUILD_DIR=".build"
 OUT_DIR="../content/figures"
 
+# SVGの表示サイズの倍率。
+# TeXのptがCSSピクセルに換算されると、図中の文字が本文よりかなり小さく出るので
+# 全体を一律で拡大する。viewBox はそのままに width/height だけを掛けるので、
+# 文字・線・間隔が同じ比率で拡大され、図どうしの見た目の縮尺も揃う。
+SCALE=1.33
+
 mkdir -p "$BUILD_DIR"
 
 targets=("$@")
@@ -35,7 +41,20 @@ for tex in "${targets[@]}"; do
   }
 
   dvipdfmx -q -o "$BUILD_DIR/$name.pdf" "$BUILD_DIR/$name.dvi"
-  pdftocairo -svg "$BUILD_DIR/$name.pdf" "$OUT_DIR/$name.svg"
+  pdftocairo -svg "$BUILD_DIR/$name.pdf" "$BUILD_DIR/$name.svg"
 
-  echo "    -> content/figures/$name.svg ($(wc -c < "$OUT_DIR/$name.svg") bytes)"
+  # width/height を SCALE 倍にする(viewBox は触らないので中身ごと拡大される)
+  awk -v s="$SCALE" '
+    !done && match($0, /width="[0-9.]+pt" height="[0-9.]+pt"/) {
+      hdr = substr($0, RSTART, RLENGTH)
+      split(hdr, a, "\"")
+      $0 = substr($0, 1, RSTART - 1) \
+           sprintf("width=\"%.2fpt\" height=\"%.2fpt\"", (a[2] + 0) * s, (a[4] + 0) * s) \
+           substr($0, RSTART + RLENGTH)
+      done = 1
+    }
+    { print }
+  ' "$BUILD_DIR/$name.svg" > "$OUT_DIR/$name.svg"
+
+  echo "    -> content/figures/$name.svg ($(wc -c < "$OUT_DIR/$name.svg") bytes, x$SCALE)"
 done

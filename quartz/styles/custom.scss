@@ -280,10 +280,11 @@ html[saved-theme="dark"] {
   text-align: center;
 
   > img {
-    // SVGの内在サイズ(pt)のままだと本文幅に対して小さいので、
-    // 本文の幅いっぱいまで引き伸ばす(ベクタなので拡大しても劣化しない)
-    width: 100%;
-    max-width: 560px;
+    // SVGの内在サイズのまま表示する。幅いっぱいまで引き伸ばすと図ごとに
+    // 拡大率が変わり、図中の文字の大きさがばらついて見えてしまうため。
+    // 本文幅を超える場合と、上限より大きい場合だけ縮める
+    // (上限は最大の図の実寸 605px より上に取ってあるので、通常は縮まない)
+    max-width: min(620px, 100%);
     height: auto;
     background: #fff;
     border-radius: 6px;
@@ -298,7 +299,9 @@ html[saved-theme="dark"] {
   margin: 0;
 
   > img {
-    width: 132px;
+    // ここも縮めるだけ。内在サイズ(約196px)がこの上限に収まるので、
+    // 本文中の図と同じ拡大率で表示される
+    max-width: 210px;
     padding: 0.5rem;
   }
 }
