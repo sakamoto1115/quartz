@@ -1,0 +1,18 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% 順序数の和 omega + 1
+\begin{tikzpicture}
+  \foreach \i in {1,...,4} { \node[nd] (n\i) at (\i*0.9,0) {}; }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,3} { \draw[lk] (n\i) -- (n\j); }
+  \node (dots) at (4.5,0) {$\cdots$};
+  \draw[lk] (n4) -- (dots);
+
+  \node[nd] (last) at (5.6,0) {$x$};
+  \draw[jump] (dots) -- (last);
+
+  \dbrace{n1}{dots}{$\omega$}
+  \dbrace{last}{last}{$1$}
+  \ubrace{n1}{last}{$\omega + 1$}
+\end{tikzpicture}
+\end{document}

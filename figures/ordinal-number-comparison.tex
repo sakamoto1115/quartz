@@ -1,0 +1,25 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% 一方の切片ともう一方が順序同型になる様子
+\begin{tikzpicture}
+  % 上段 W1
+  \foreach \i in {1,...,6} { \node[nd] (a\i) at (\i*0.9,0) {}; }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,5} { \draw[lk] (a\i) -- (a\j); }
+  \node (adots) at (6.3,0) {$\cdots$};
+  \draw[lk] (a6) -- (adots);
+  \node[lb, left=2mm of a1] {$W_1$};
+
+  % 下段 W2
+  \foreach \i in {1,...,4} { \node[nd] (b\i) at (\i*0.9,-1.5) {}; }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,3} { \draw[lk] (b\i) -- (b\j); }
+  \node[lb, left=2mm of b1] {$W_2$};
+
+  \foreach \i in {1,...,4} { \draw[dotted] (a\i) -- (b\i); }
+
+  \draw[dashed, red] (4.05,0.55) -- (4.05,-0.55);
+  \node[lb, red, above] at (4.05,0.5) {ここで切る};
+
+  \dbrace{b1}{b4}{$W_1$ の切片と $W_2$ が順序同型}
+\end{tikzpicture}
+\end{document}

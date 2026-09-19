@@ -1,0 +1,40 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% omega・2 と 2・omega は異なる
+\begin{tikzpicture}
+  % omega * 2 : omega を 2 個つなげる
+  \foreach \i in {1,2,3} { \node[nd] (a\i) at (\i*0.9,0) {}; }
+  \draw[lk] (a1) -- (a2);
+  \draw[lk] (a2) -- (a3);
+  \node (adots) at (3.6,0) {$\cdots$};
+  \draw[lk] (a3) -- (adots);
+
+  \foreach \i in {1,2,3} { \node[nd] (c\i) at (4.4+\i*0.9,0) {}; }
+  \draw[lk] (c1) -- (c2);
+  \draw[lk] (c2) -- (c3);
+  \node (cdots) at (8.0,0) {$\cdots$};
+  \draw[lk] (c3) -- (cdots);
+  \draw[jump] (adots) -- (c1);
+
+  \node[lb, left=2mm of a1] {$\omega \cdot 2$};
+  \dbrace{a1}{adots}{$\omega$}
+  \dbrace{c1}{cdots}{$\omega$}
+
+  % 2 * omega : 2 を omega 個つなげる
+  \foreach \g [evaluate=\g as \ox using (\g-1)*2.1] in {1,2,3} {
+    \node[nd] (h\g a) at (\ox+0.9,-2.2) {};
+    \node[nd] (h\g b) at (\ox+1.8,-2.2) {};
+    \draw[lk] (h\g a) -- (h\g b);
+    \dbrace{h\g a}{h\g b}{$2$}
+  }
+  \draw[lk] (h1b) -- (h2a);
+  \draw[lk] (h2b) -- (h3a);
+  % 3ブロック目の末尾 h3b は x=6.0。その 0.9 先に置く
+  \node (hdots) at (6.9,-2.2) {$\cdots$};
+  \draw[lk] (h3b) -- (hdots);
+
+  \node[lb, left=2mm of h1a] {$2 \cdot \omega$};
+  \node[lb, right=1.5mm of hdots] {$= \omega$};
+\end{tikzpicture}
+\end{document}

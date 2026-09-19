@@ -1,0 +1,13 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% 順序数の和 2 + 3 = 5
+\begin{tikzpicture}
+  \foreach \i in {1,...,5} { \node[nd] (n\i) at (\i*0.9,0) {}; }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} { \draw[lk] (n\i) -- (n\j); }
+
+  \dbrace{n1}{n2}{$2$}
+  \dbrace{n3}{n5}{$3$}
+  \ubrace{n1}{n5}{$2 + 3 = 5$}
+\end{tikzpicture}
+\end{document}

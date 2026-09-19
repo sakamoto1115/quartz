@@ -1,0 +1,18 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% 元 a における切片(a より小さい元の全体)
+\begin{tikzpicture}
+  \node[nd] (n1) at (0.9,0) {};
+  \node[nd] (n2) at (1.8,0) {};
+  \node[nd] (n3) at (2.7,0) {};
+  \node[nd] (n4) at (3.6,0) {$a$};
+  \node[nd] (n5) at (4.5,0) {};
+  \node[nd] (n6) at (5.4,0) {};
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,5} { \draw[lk] (n\i) -- (n\j); }
+  \node (dots) at (6.3,0) {$\cdots$};
+  \draw[lk] (n6) -- (dots);
+
+  \dbrace{n1}{n3}{切片}
+\end{tikzpicture}
+\end{document}

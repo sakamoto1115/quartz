@@ -1,0 +1,28 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% omega + 1 と 1 + omega は異なる
+\begin{tikzpicture}
+  % omega + 1
+  \foreach \i in {1,...,4} { \node[nd] (a\i) at (\i*0.9,0) {}; }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,3} { \draw[lk] (a\i) -- (a\j); }
+  \node (adots) at (4.5,0) {$\cdots$};
+  \draw[lk] (a4) -- (adots);
+  \node[nd] (alast) at (5.6,0) {$x$};
+  \draw[jump] (adots) -- (alast);
+  \node[lb, left=2mm of a1] {$\omega + 1$};
+
+  % 1 + omega
+  \foreach \i in {1,...,5} { \node[nd] (b\i) at (\i*0.9,-1.5) {}; }
+  \foreach \i [evaluate=\i as \j using int(\i+1)] in {1,...,4} { \draw[lk] (b\i) -- (b\j); }
+  \node (bdots) at (5.4,-1.5) {$\cdots$};
+  \draw[lk] (b5) -- (bdots);
+  \node[lb, left=2mm of b1] {$1 + \omega$};
+  \node[lb, right=1.5mm of bdots] {$= \omega$};
+
+  \dbrace{a1}{adots}{$\omega$}
+  \dbrace{alast}{alast}{$1$}
+  \dbrace{b1}{b1}{$1$}
+  \dbrace{b2}{bdots}{$\omega$}
+\end{tikzpicture}
+\end{document}

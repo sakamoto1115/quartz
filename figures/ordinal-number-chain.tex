@@ -1,0 +1,18 @@
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\input{lib/chain}
+\begin{document}
+% 整列集合が「先頭から一列に並ぶ」様子
+\begin{tikzpicture}
+  \node[nd] (n1) at (0.9,0) {};
+  \node[nd] (n2) at (1.8,0) {};
+  \node[nd] (n3) at (2.7,0) {$a$};
+  \node[nd] (n4) at (3.6,0) {$a'$};
+  \node[nd] (n5) at (4.5,0) {};
+  \draw[lk] (n1) -- (n2);
+  \draw[lk] (n2) -- (n3);
+  \draw[lk] (n3) -- (n4);
+  \draw[lk] (n4) -- (n5);
+  \node (dots) at (5.4,0) {$\cdots$};
+  \draw[lk] (n5) -- (dots);
+\end{tikzpicture}
+\end{document}

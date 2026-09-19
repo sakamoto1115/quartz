@@ -1,0 +1,32 @@
+% 順序数の記事で使う鎖状の図の共通設定。
+% 各図の .tex から \documentclass の直後に \input{lib/chain} で読み込む。
+\usepackage{plautopatch}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning,decorations.pathreplacing,calc}
+
+\tikzset{
+  % 整列集合の元。元の名前(a, a', x など)は丸の中に入れる。
+  % text height/depth を固定しないと、a' のようにプライムで背が高くなる中身が
+  % 「実際の高さで中央揃え」され、a より下にずれてしまう
+  nd/.style={circle, draw, semithick, fill=white, inner sep=0pt,
+             minimum size=6mm, font=\footnotesize,
+             text height=1.6ex, text depth=0.25ex},
+  % 元と元をつなぐ線(=直後の元がある)
+  lk/.style={semithick},
+  % 直前の元が無い箇所のつなぎ。無限個の先へ飛ぶことを示すため赤で区別する
+  jump/.style={semithick, red},
+  lb/.style={font=\footnotesize},
+  % 範囲を示す波括弧。端点はノードのアンカーから取るのでずれない
+  br/.style={decorate, decoration={brace, mirror, amplitude=3.5pt}, semithick},
+  brup/.style={decorate, decoration={brace, amplitude=3.5pt}, semithick},
+}
+
+% 下向きの波括弧: \dbrace{左のノード}{右のノード}{ラベル}
+\newcommand{\dbrace}[3]{%
+  \draw[br] ([yshift=-1.8mm]#1.south west) -- ([yshift=-1.8mm]#2.south east)
+    node[midway, below=3pt, lb] {#3};}
+% 上向きの波括弧
+\newcommand{\ubrace}[3]{%
+  \draw[brup] ([yshift=1.8mm]#1.north west) -- ([yshift=1.8mm]#2.north east)
+    node[midway, above=3pt, lb] {#3};}
