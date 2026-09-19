@@ -15,7 +15,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 BUILD_DIR=".build"
-OUT_DIR="../content/set-topology"
+OUT_DIR="../content/figures"
 
 mkdir -p "$BUILD_DIR"
 
@@ -37,5 +37,5 @@ for tex in "${targets[@]}"; do
   dvipdfmx -q -o "$BUILD_DIR/$name.pdf" "$BUILD_DIR/$name.dvi"
   pdftocairo -svg "$BUILD_DIR/$name.pdf" "$OUT_DIR/$name.svg"
 
-  echo "    -> content/set-topology/$name.svg ($(wc -c < "$OUT_DIR/$name.svg") bytes)"
+  echo "    -> content/figures/$name.svg ($(wc -c < "$OUT_DIR/$name.svg") bytes)"
 done

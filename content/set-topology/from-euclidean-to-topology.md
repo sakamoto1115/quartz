@@ -70,7 +70,7 @@ $$
 >
 > </div>
 > <figure class="tikz-figure figure-row-aside">
->   <img src="./from-euclidean-to-topology-interior-point.svg" alt="集合 O の内部にある点 a と、a を中心とする開球体" />
+>   <img src="../figures/from-euclidean-to-topology-interior-point.svg" alt="集合 O の内部にある点 a と、a を中心とする開球体" />
 > </figure>
 > </div>
 
@@ -105,5 +105,5 @@ $\mathfrak{O}$ は $S$ の位相（の1つ）であるという。
 ## まとめ
 
 <figure class="tikz-figure">
-  <img src="./from-euclidean-to-topology-summary.svg" alt="ε-δ論法から出発して、開集合による言い換えを経て、位相の公理から位相空間での連続性に至る流れ" />
+  <img src="../figures/from-euclidean-to-topology-summary.svg" alt="ε-δ論法から出発して、開集合による言い換えを経て、位相の公理から位相空間での連続性に至る流れ" />
 </figure>
