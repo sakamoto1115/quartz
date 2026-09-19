@@ -1,0 +1,26 @@
+% 濃度：対等な集合どうしでグループ分けした様子
+%
+% ビルド: bash figures/build.sh
+% 出力先: content/figures/cardinality-groups.svg
+
+\documentclass[uplatex,dvipdfmx,border=3pt,varwidth]{standalone}
+\usepackage{plautopatch}
+\usepackage{amsmath,amssymb}
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\tikzset{
+  grp/.style={draw, rounded corners=3pt, align=center, semithick,
+              inner sep=6pt, minimum height=13mm, font=\footnotesize},
+  dt/.style={font=\footnotesize},
+}
+
+\begin{document}
+\begin{tikzpicture}[node distance=5mm]
+  \node[grp] (g1) {$\{1\}, \{A\}, \cdots$\\[3pt] 個数：1};
+  \node[grp, right=of g1] (g2) {$\{1, 2\}, \{A, B\}, \cdots$\\[3pt] 個数：2};
+  \node[dt, right=of g2] (d1) {$\cdots$};
+  \node[grp, right=of d1] (g3) {$\mathbb{N}, \mathbb{Q}, \cdots$\\[3pt] 個数：可算無限個};
+  \node[dt, right=of g3] (d2) {$\cdots$};
+\end{tikzpicture}
+\end{document}
