@@ -1,5 +1,6 @@
 ---
 title: 順序数
+created: 2026-09-19
 tags:
   - 集合論
 noCite:

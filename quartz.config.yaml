@@ -44,10 +44,19 @@ plugins:
   - source: "@quartz-community/created-modified-date"
     enabled: true
     options:
-      defaultDateType: modified
+      # 一覧(フォルダページ・タグページ)の表示と並び順に使われる日付。
+      # 更新日だと「直近に手を入れた順」になって並びが安定しないので作成日にする。
+      # 記事の見出しに出す日付は自前の ArticleDates が created/modified 両方を
+      # 直接読むため、ここの指定には影響されない。
+      defaultDateType: created
+      # git を frontmatter より先に見る。
+      # note-properties が「frontmatterに created だけあると modified にコピーする」
+      # (data.modified ||= created) ため、frontmatter が先だと更新日が作成日で
+      # 上書きされてしまう。git を先にすれば modified は常にコミット履歴から取られ、
+      # git が埋めない created だけが frontmatter から来る。
       priority:
-        - frontmatter
         - git
+        - frontmatter
         - filesystem
     order: 10
   - source: "@quartz-community/syntax-highlighting"
@@ -163,8 +172,10 @@ plugins:
     layout:
       position: beforeBody
       priority: 10
+  # 作成日と更新日を分けて出したいので、自前の ArticleDates に置き換えている
+  # (content-meta は defaultDateType で指定した片方しか出せない)
   - source: "@quartz-community/content-meta"
-    enabled: true
+    enabled: false
     layout:
       position: beforeBody
       priority: 20

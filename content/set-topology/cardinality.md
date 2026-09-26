@@ -1,5 +1,6 @@
 ---
 title: 集合の濃度
+created: 2026-08-16
 tags:
   - 集合論
 noCite:

@@ -1,5 +1,6 @@
 ---
 title: 位相を決めるもの
+created: 2026-09-26
 tags:
   - 位相空間論
 noCite:
