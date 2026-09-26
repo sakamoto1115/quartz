@@ -1,0 +1,46 @@
+% 位相構造と、それを定める5つの概念の関係
+%
+% ビルド: bash figures/build.sh
+% 出力先: content/figures/determining-a-topology-structure.svg
+%
+% 下段の5つは横一列だと窮屈なので、上下に互い違いにずらして並べている。
+
+\documentclass[uplatex,dvipdfmx,border=3pt]{standalone}
+\usepackage{plautopatch}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\tikzset{
+  bx/.style={draw, rounded corners=4pt, align=center, semithick,
+             inner sep=6pt, minimum height=9mm, minimum width=25mm,
+             font=\footnotesize, fill=black!8},
+  % 上段は塗らずに、下段の5つと区別する
+  top/.style={bx, minimum width=113mm, minimum height=11mm, font=\normalsize,
+              fill=none},
+  ar/.style={-{Stealth[length=2.2mm]}, semithick},
+  sep/.style={dotted, semithick},
+}
+
+\begin{document}
+\begin{tikzpicture}
+  % 上段：位相構造
+  \node[top] (t) at (4.4,0) {$S$ の位相構造};
+
+  % 上段と下段の区切り
+  \draw[sep] ([yshift=-7.5mm]t.south west) -- ([yshift=-7.5mm]t.south east);
+
+  % 下段：位相を定める5つの概念。y を互い違いにして窮屈さを避ける
+  % 「開」どうし・「閉」どうしが隣り合う順に並べている
+  \node[bx] (b1) at (0,-2.5)    {開集合系 $\mathfrak{O}$};
+  \node[bx] (b2) at (2.2,-3.8)  {開核作用子 $i$};
+  \node[bx] (b3) at (4.4,-2.5)  {閉集合系 $\mathfrak{A}$};
+  \node[bx] (b4) at (6.6,-3.8)  {閉包作用子 $a$};
+  \node[bx] (b5) at (8.8,-2.5) {近傍系 $\bm{V}$};
+
+  % 上段の底辺から各ノードの真上へ、まっすぐ下ろす
+  \foreach \i in {1,...,5} {
+    \draw[ar] (t.south -| b\i) -- (b\i);
+  }
+\end{tikzpicture}
+\end{document}
