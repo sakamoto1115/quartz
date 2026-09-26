@@ -43,7 +43,7 @@ $$
 \mathfrak{m} + \mathfrak{n} \stackrel{\mathrm{def}}{=} \mathrm{card} (A \cup B),
 $$
 
-（ただし $A \cap B = \emptyset$ が前提）
+（ただし $A \cap B = \varnothing$ が前提）
 
 積は
 

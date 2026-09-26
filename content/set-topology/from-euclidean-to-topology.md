@@ -92,7 +92,7 @@ $\mathfrak{O}$ は $S$ の位相（の1つ）であるという。
 
 > [!abstract] 位相の公理
 >
-> $\mathrm{(Oi)} \ S \in \mathfrak{O}$ かつ $\emptyset \in \mathfrak{O}$
+> $\mathrm{(Oi)} \ S \in \mathfrak{O}$ かつ $\varnothing \in \mathfrak{O}$
 >
 > $\mathrm{(Oii)} \ O_1, O_2 \in \mathfrak{O}$ ならば $O_1 \cap O_2 \in \mathfrak{O}$
 >

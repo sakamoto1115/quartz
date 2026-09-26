@@ -150,7 +150,7 @@ $\mu = \mathrm{ord} A, \nu = \mathrm{ord} B$ となる集合 $A, B$ に対して
 
 > [!note]- 正確な和の定義
 >
-> 正確には、$A \cup B \ (A \cap B = \emptyset)$ に次のような順序を定義した整列集合の順序数とする。
+> 正確には、$A \cup B \ (A \cap B = \varnothing)$ に次のような順序を定義した整列集合の順序数とする。
 >
 > $x, y \in A \cup B$ に対して、次のいずれかが成り立つとき $x \preceq y$ とする。
 >
